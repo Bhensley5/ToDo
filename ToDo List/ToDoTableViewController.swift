@@ -14,22 +14,6 @@ class ToDoTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        toDos = createToDo()
-    }
-    
-    func createToDo() -> [ToDo] {
-        var eat = ToDo()
-        eat.name = "eat"
-        eat.important = true
-        
-        var shower = ToDo()
-        shower.name = "shower"
-        
-        var sleep = ToDo()
-        sleep.name = "sleep"
-        
-        return [eat, shower, sleep]
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -49,6 +33,11 @@ class ToDoTableViewController: UITableViewController {
         }
 
         return cell
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let addVC = segue.destination as! AddToDoViewController
+        addVC.previousVC = self
     }
 
     /*
