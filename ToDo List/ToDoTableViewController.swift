@@ -9,43 +9,47 @@
 import UIKit
 
 class ToDoTableViewController: UITableViewController {
-
+    
+    var toDos : [ToDo] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
+        toDos = createToDo()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+    
+    func createToDo() -> [ToDo] {
+        var eat = ToDo()
+        eat.name = "eat"
+        eat.important = true
+        
+        var shower = ToDo()
+        shower.name = "shower"
+        
+        var sleep = ToDo()
+        sleep.name = "sleep"
+        
+        return [eat, shower, sleep]
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return toDos.count
     }
 
-    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoCell", for: indexPath)
+        
+        let todo = toDos[indexPath.row]
+        
+        if todo.important {
+            cell.textLabel?.text = "❗️" + todo.name
+        } else {
+            cell.textLabel?.text = todo.name
+        }
 
         return cell
     }
-    */
 
     /*
     // Override to support conditional editing of the table view.
