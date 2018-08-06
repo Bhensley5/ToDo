@@ -1,5 +1,5 @@
 //
-//  AddToDoViewController.swift
+//  CompleteToDoViewController.swift
 //  ToDo List
 //
 //  Created by Brandon Hensley on 8/5/18.
@@ -8,17 +8,18 @@
 
 import UIKit
 
-class AddToDoViewController: UIViewController {
+class CompleteToDoViewController: UIViewController {
     
     var previousVC = ToDoTableViewController()
     
-    @IBOutlet weak var titleTextField: UITextField!
-    
-    @IBOutlet weak var importantSwitch: UISwitch!
+    var selectedToDo = ToDo()
 
+    @IBOutlet weak var itemText: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        itemText.text = selectedToDo.name
 
         // Do any additional setup after loading the view.
     }
@@ -28,23 +29,10 @@ class AddToDoViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func addPressed(_ sender: Any) {
-        
-        let name = titleTextField.text
-        
-        if name != nil {
-            
-            let toDo = ToDo()
-            toDo.name = titleTextField.text!
-            toDo.important = importantSwitch.isOn
-            
-            previousVC.toDos.append(toDo)
-            previousVC.tableView.reloadData()
-            
-            navigationController?.popViewController(animated: true)
-            
-        }
-
+    @IBAction func completePressed(_ sender: Any) {
+        previousVC.toDos = previousVC.toDos.filter() { $0 !== selectedToDo}
+        previousVC.tableView.reloadData()
+        navigationController?.popViewController(animated: true)
     }
     
     /*
