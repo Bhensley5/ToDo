@@ -29,7 +29,7 @@ class AddToDoViewController: UIViewController {
     }
     
     @IBAction func addPressed(_ sender: Any) {
-        
+     /*
         let name = titleTextField.text
         
         if name != nil {
@@ -44,7 +44,25 @@ class AddToDoViewController: UIViewController {
             navigationController?.popViewController(animated: true)
             
         }
-
+    */
+        
+        let name = titleTextField.text
+        
+        if name != nil {
+            
+            if let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext {
+                
+                let toDo = ToDoCoreData(entity: ToDoCoreData.entity(), insertInto: context)
+                toDo.name = titleTextField.text!
+                toDo.important = importantSwitch.isOn
+                
+                try? context.save()
+                navigationController?.popViewController(animated: true)
+                
+            }
+        }
+        
+        
     }
     
     /*

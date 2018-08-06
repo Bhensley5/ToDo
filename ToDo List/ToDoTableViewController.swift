@@ -10,10 +10,34 @@ import UIKit
 
 class ToDoTableViewController: UITableViewController {
     
-    var toDos : [ToDo] = []
+    var toDos : [ToDoCoreData] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        getToDos()
+    }
+    
+    func getToDos() {
+        
+        if let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext {
+            
+            if let coreDataToDos = try? context.fetch(ToDoCoreData.fetchRequest()) as? [ToDoCoreData] {
+                
+                if let theToDos = coreDataToDos {
+                    
+                    toDos = theToDos
+                    tableView.reloadData()
+                    
+                }
+                
+            }
+            
+            
+        }
+        
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -26,11 +50,16 @@ class ToDoTableViewController: UITableViewController {
         
         let todo = toDos[indexPath.row]
         
-        if todo.important {
-            cell.textLabel?.text = "❗️" + todo.name
-        } else {
-            cell.textLabel?.text = todo.name
+        if let name = todo.name {
+            
+            if todo.important {
+                cell.textLabel?.text = "❗️" + name
+            } else {
+                cell.textLabel?.text = todo.name
+            }
+            
         }
+        
 
         return cell
     }
@@ -48,7 +77,7 @@ class ToDoTableViewController: UITableViewController {
         
         if let completeVC = segue.destination as? CompleteToDoViewController {
             
-            if let todo = sender as? ToDo {
+            if let todo = sender as? ToDoCoreData {
                 completeVC.selectedToDo = todo
                 completeVC.previousVC = self
             }
