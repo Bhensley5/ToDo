@@ -56,9 +56,6 @@ class AddToDoViewController: UIViewController {
                 toDo.name = titleTextField.text!
                 toDo.important = importantSwitch.isOn
                 
-                
-                
-                
                 try? context.save()
                 navigationController?.popViewController(animated: true)
                 
